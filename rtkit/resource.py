@@ -1,6 +1,6 @@
 import logging
-import errors
-import forms
+import rtkit.errors
+import rtkit.forms
 from urllib2 import Request, HTTPError
 from rtkit.parser import RTParser
 
@@ -21,7 +21,7 @@ class RTResource(object):
         headers = headers or dict()
         headers.setdefault('Accept', 'text/plain')
         if payload:
-            payload = forms.encode(payload, headers)
+            payload = rtkit.forms.encode(payload, headers)
         self.logger.debug('{0} {1}'.format(method, path))
         self.logger.debug(headers)
         self.logger.debug('%r' % payload)
@@ -61,7 +61,7 @@ class RTResponse(object):
             if self.status_int == 409:
                 decoder = RTParser.decode_comment
             self.parsed = RTParser.parse(self.body, decoder)
-        except errors.RTResourceError as e:
+        except rtkit.errors.RTResourceError as e:
             self.parsed = []
             self.status_int = e.status_int
             self.status = '{0} {1}'.format(e.status_int, e.msg)
