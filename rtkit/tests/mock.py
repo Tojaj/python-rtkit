@@ -1,7 +1,5 @@
 import logging
-from flask.app import Flask
-from flask.globals import request
-from flask.helpers import make_response
+from bottle import Bottle, request
 from rtkit.parser import RTParser
 
 
@@ -10,31 +8,24 @@ class NullHandler(logging.Handler):
         pass
 logging.root.addHandler(NullHandler())
 
-app = Flask(__name__)
+app = Bottle(__name__)
 
 
-@app.route('/ticket/new', methods=['POST'])
+@app.post('/ticket/new')
 def create_tkt():
-    form = dict(RTParser.parse(request.form.get('content', ''), RTParser.decode)[0])
-    if form['Queue'] == '2':
-        body = 'RT/3.8.10 200 Ok\n\n# Could not create ticket.\n# Could not create ticket. Queue not set\n\n'
-    elif form['Queue'] == '3':
-        body = "RT/3.8.10 200 Ok\n\n# Could not create ticket.\n# No permission to create tickets in the queue '___Admin'\n\n"
-    else:
-        body = 'RT/3.8.10 200 Ok\n\n# Ticket 1 created.\n\n'
-    response = make_response(body, 200)
-    return response
+    queue_2_response = {
+        '1': 'RT/3.8.10 200 Ok\n\n# Ticket 1 created.\n\n',
+        '2': 'RT/3.8.10 200 Ok\n\n# Could not create ticket.\n# Could not create ticket. Queue not set\n\n',
+        '3': "RT/3.8.10 200 Ok\n\n# Could not create ticket.\n# No permission to create tickets in the queue '___Admin'\n\n"
+    }
+    form = dict(RTParser.parse(request.forms.get('content', ''), RTParser.decode)[0])
+    return queue_2_response[form['Queue']]
 
 
-@app.route('/ticket/<tid>', methods=['GET', 'POST'])
-def readupdate_tkt(tid):
-    if request.method == 'GET':
-        if tid == '2':
-            body = 'RT/3.8.10 200 Ok\n\n# Ticket 2 does not exist.\n\n\n'
-        elif tid == '3':
-            body = 'RT/3.8.10 401 Credentials required\n'
-        else:
-            body = '''RT/3.8.10 200 Ok
+@app.get('/ticket/<tid>')
+def read_tkt(tid):
+    tid_2_response = {
+        '1': '''RT/3.8.10 200 Ok
 
 id: ticket/1
 Queue: General
@@ -60,12 +51,17 @@ TimeWorked: 25 minutes
 TimeLeft: 0
 
 
-'''
-    else:
-        form = dict(RTParser.parse(request.form.get('content', ''), RTParser.decode)[0])
-        if form['Queue'] == '3':
-            body = 'RT/3.8.10 409 Syntax Error\n\n# queue: You may not create requests in that queue.\n\n'
-        else:
-            body = ''
-    response = make_response(body, 200)
-    return response
+''',
+        '2': 'RT/3.8.10 200 Ok\n\n# Ticket 2 does not exist.\n\n\n',
+        '3': 'RT/3.8.10 401 Credentials required\n'
+    }
+    return tid_2_response[tid]
+
+
+@app.post('/ticket/<tid>')
+def update_tkt(tid):
+    form = dict(RTParser.parse(request.forms.get('content', ''), RTParser.decode)[0])
+    body = ''
+    if form['Queue'] == '3':
+        body = 'RT/3.8.10 409 Syntax Error\n\n# queue: You may not create requests in that queue.\n\n'
+    return body

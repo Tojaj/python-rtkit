@@ -1,14 +1,15 @@
 from multiprocessing import Process
 import unittest2 as unittest
+from bottle import run
 import time
 
 
-class TestCaseWithFlask(unittest.TestCase):
+class TestCaseWithBottle(unittest.TestCase):
     application = NotImplemented
 
     @classmethod
     def setUpClass(cls):
-        cls.server = Process(target=cls.application.run)
+        cls.server = Process(target=run, args=(cls.application,), kwargs={'port': 5000})
         cls.server.start()
         time.sleep(0.1)
 

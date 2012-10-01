@@ -1,10 +1,10 @@
-from rtkit.tests.common import TestCaseWithFlask
+from rtkit.tests.common import TestCaseWithBottle
 from rtkit.tests.mock import app
 from rtkit.resource import RTResource
 from rtkit.authenticators import AbstractAuthenticator
 
 
-class TestCaseTicket(TestCaseWithFlask):
+class TestCaseTicket(TestCaseWithBottle):
     application = app
 
     @classmethod
