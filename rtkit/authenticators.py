@@ -1,5 +1,7 @@
 import urllib
-from rtkit.utils import urllib2, cookielib
+from rtkit.utils import cookielib, build_opener, HTTPCookieProcessor, Request
+from rtkit.utils import HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler
+
 
 __all__ = [
     'BasicAuthenticator',
@@ -10,7 +12,7 @@ __all__ = [
 
 class AbstractAuthenticator(object):
     def __init__(self, username, password, url, *handlers):
-        self.opener = urllib2.build_opener(*handlers)
+        self.opener = build_opener(*handlers)
         self.username = username
         self.password = password
         self.url = url
@@ -32,11 +34,11 @@ class AbstractAuthenticator(object):
 
 class BasicAuthenticator(AbstractAuthenticator):
     def __init__(self, username, password, url):
-        passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
+        passman = HTTPPasswordMgrWithDefaultRealm()
         passman.add_password(None, url, username, password)
         super(BasicAuthenticator, self).__init__(
             username, password, url,
-            urllib2.HTTPBasicAuthHandler(passman)
+            HTTPBasicAuthHandler(passman)
         )
 
 
@@ -44,14 +46,14 @@ class CookieAuthenticator(AbstractAuthenticator):
     def __init__(self, username, password, url):
         super(CookieAuthenticator, self).__init__(
             username, password, url,
-            urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar())
+            HTTPCookieProcessor(cookielib.LWPCookieJar())
         )
         self._logged = False
 
     def _login(self):
         data = {'user': self.username, 'pass': self.password}
         self.opener.open(
-            urllib2.Request(self.url, urllib.urlencode(data))
+            Request(self.url, urllib.urlencode(data))
         )
 
 

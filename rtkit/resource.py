@@ -1,7 +1,7 @@
 import logging
 import rtkit.errors
 import rtkit.forms
-from rtkit.utils import urllib2
+from rtkit.utils import Request, HTTPError
 from rtkit.parser import RTParser
 
 
@@ -25,14 +25,14 @@ class RTResource(object):
         self.logger.debug('{0} {1}'.format(method, path))
         self.logger.debug(headers)
         self.logger.debug('%r' % payload)
-        req = urllib2.Request(
+        req = Request(
             url=self.auth.url + path,
             data=payload,
             headers=headers,
         )
         try:
             response = self.auth.open(req)
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             response = e
         return self.response_cls(req, response)
 
