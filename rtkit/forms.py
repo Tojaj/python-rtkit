@@ -142,7 +142,7 @@ def encode(value, headers):
 
 
 def _content_encode(value):
-    return '\n'.join(['{0}: {1}'.format(k, v) for k, v in value.iteritems()])
+    return '\n'.join(['{0}: {1}'.format(k, v) for k, v in value.items()])
 
 
 def url_quote(s, charset='utf-8', safe='/:'):

@@ -1,23 +1,15 @@
 import re
 from rtkit.errors import *
+from rtkit.pattern import *
 
-UNKNOWN_PATTERN = '# Unknown object type: (?P<t>.+)'
 UNKNOWN = re.compile(UNKNOWN_PATTERN)
-INVALID_PATTERN = '# Invalid object specification: \'(?P<t>.+)\''
 INVALID = re.compile(INVALID_PATTERN)
-NOTFOUND_PATTERN = '# (?P<t>\w+) (?P<r>\d+) does not exist.'
 NOTFOUND = re.compile(NOTFOUND_PATTERN)
-NAMED_NOTFOUND_PATTERN = '# No (?P<t>\w+) named (?P<r>\w+) exists.'
 NAMED_NOTFOUND = re.compile(NAMED_NOTFOUND_PATTERN)
-NAN_PATTERN = '# Objects of type (?P<t>\w+) must be specified by numeric id.'
 NAN = re.compile(NAN_PATTERN)
-NOT_CREATED_PATTERN = '# Could not create (?P<t>\w+).'
 NOT_CREATED = re.compile(NOT_CREATED_PATTERN)
-NO_MATCHING_PATTERN = 'No matching results.'
 NO_MATCHING = re.compile(NO_MATCHING_PATTERN)
-CREATED_PATTERN = '# (?P<t>\w+) (?P<r>\d+) created.'
 CREATED = re.compile(CREATED_PATTERN)
-UNAUTHORIZED_PATTERN = '# You are not allowed to modify (?P<t>\w+) (?P<r>\w+).'
 UNAUTHORIZED = re.compile(UNAUTHORIZED_PATTERN)
 
 

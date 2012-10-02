@@ -1,0 +1,21 @@
+import sys
+if sys.version_info < (3, 0):
+    UNKNOWN_PATTERN = '# Unknown object type: (?P<t>.+)'
+    INVALID_PATTERN = '# Invalid object specification: \'(?P<t>.+)\''
+    NOTFOUND_PATTERN = '# (?P<t>\w+) (?P<r>\d+) does not exist.'
+    NAMED_NOTFOUND_PATTERN = '# No (?P<t>\w+) named (?P<r>\w+) exists.'
+    NAN_PATTERN = '# Objects of type (?P<t>\w+) must be specified by numeric id.'
+    NOT_CREATED_PATTERN = '# Could not create (?P<t>\w+).'
+    NO_MATCHING_PATTERN = 'No matching results.'
+    CREATED_PATTERN = '# (?P<t>\w+) (?P<r>\d+) created.'
+    UNAUTHORIZED_PATTERN = '# You are not allowed to modify (?P<t>\w+) (?P<r>\w+).'
+else:
+    UNKNOWN_PATTERN = b'# Unknown object type: (?P<t>.+)'
+    INVALID_PATTERN = b'# Invalid object specification: \'(?P<t>.+)\''
+    NOTFOUND_PATTERN = b'# (?P<t>\w+) (?P<r>\d+) does not exist.'
+    NAMED_NOTFOUND_PATTERN = b'# No (?P<t>\w+) named (?P<r>\w+) exists.'
+    NAN_PATTERN = b'# Objects of type (?P<t>\w+) must be specified by numeric id.'
+    NOT_CREATED_PATTERN = b'# Could not create (?P<t>\w+).'
+    NO_MATCHING_PATTERN = b'No matching results.'
+    CREATED_PATTERN = b'# (?P<t>\w+) (?P<r>\d+) created.'
+    UNAUTHORIZED_PATTERN = b'# You are not allowed to modify (?P<t>\w+) (?P<r>\w+).'
