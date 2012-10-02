@@ -7,7 +7,7 @@ from rtkit import comment
 class RTParser(object):
     HEADER = re.compile(HEADER_PATTERN)
     COMMENT = re.compile(COMMENT_PATTERN)
-    SECTION = re.compile(SECTION_PATTERN, re.M | re.U)
+    SECTION = re.compile(SECTION_PATTERN, re.M)
 
     @classmethod
     def parse(cls, body, decoder):
