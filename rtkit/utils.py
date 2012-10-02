@@ -9,5 +9,7 @@ except ImportError:
     from itertools import filterfalse
 if sys.version_info >= (3, 0):
     import urllib as urllib2
+    import http.cookiejar as cookielib
 else:
     import urllib2
+    import cookielib

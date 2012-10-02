@@ -1,5 +1,5 @@
 from rtkit.resource import RTResource
-from entities import *
+from rtkit.entities import *
 
 
 class Tracker(RTResource):

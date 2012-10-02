@@ -1,6 +1,5 @@
 import urllib
-from rtkit.utils import urllib2
-import cookielib
+from rtkit.utils import urllib2, cookielib
 
 __all__ = [
     'BasicAuthenticator',
