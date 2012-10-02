@@ -1,11 +1,7 @@
 from multiprocessing import Process
-import sys
-if sys.version_info >= (2, 7):
-    import unittest
-else:
-    import unittest2 as unittest
 from bottle import run
 import time
+from rtkit.utils import unittest
 
 
 class TestCaseWithBottle(unittest.TestCase):

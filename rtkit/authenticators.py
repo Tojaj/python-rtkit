@@ -1,5 +1,5 @@
 import urllib
-import urllib2
+from rtkit.utils import urllib2
 import cookielib
 
 __all__ = [

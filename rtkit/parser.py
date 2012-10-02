@@ -1,5 +1,5 @@
-from itertools import ifilterfalse
 import re
+from rtkit.utils import filterfalse
 from rtkit import comment
 
 
@@ -52,7 +52,7 @@ class RTParser(object):
         []
         """
         try:
-            lines = ifilterfalse(cls.COMMENT.match, lines)
+            lines = filterfalse(cls.COMMENT.match, lines)
             return [(k, v.strip(' ')) for k, v in [l.split(':', 1) for l in lines]]
         except (ValueError, IndexError):
             return []

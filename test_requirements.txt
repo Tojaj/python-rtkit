@@ -1,3 +1,3 @@
 pep8
-https://github.com/defnull/bottle/tarball/0.10.11
+https://github.com/defnull/bottle/tarball/master
 pytest

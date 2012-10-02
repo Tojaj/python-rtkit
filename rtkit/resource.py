@@ -1,7 +1,7 @@
 import logging
 import rtkit.errors
 import rtkit.forms
-from urllib2 import Request, HTTPError
+from rtkit.utils.urllib2 import Request, HTTPError
 from rtkit.parser import RTParser
 
 
