@@ -94,7 +94,7 @@ class RTParser(object):
             for line in filter(None, section.splitlines()):
                 if cls.HEADER.match(line):
                     continue
-                if line[0].isspace():
+                if str(line[0]).isspace():
                     logic_lines[-1] += ' ' + line.strip(' ')
                 else:
                     logic_lines.append(line)
