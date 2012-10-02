@@ -54,7 +54,7 @@ class RTParser(object):
         """
         try:
             lines = filterfalse(cls.COMMENT.match, lines)
-            return [(k, v.strip(' ')) for k, v in [l.split(':', 1) for l in lines]]
+            return [(k, v.strip(' ')) for k, v in [str(l).split(':', 1) for l in lines]]
         except (ValueError, IndexError):
             return []
 
