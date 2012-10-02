@@ -1,12 +1,13 @@
 import re
 from rtkit.utils import filterfalse
+from rtkit.pattern import *
 from rtkit import comment
 
 
 class RTParser(object):
-    HEADER = re.compile(r'^RT/(?P<v>.+)\s+(?P<s>(?P<i>\d+).+)')
-    COMMENT = re.compile(r'^#\s+.+$')
-    SECTION = re.compile(r'^--', re.M | re.U)
+    HEADER = re.compile(HEADER_PATTERN)
+    COMMENT = re.compile(COMMENT_PATTERN)
+    SECTION = re.compile(SECTION_PATTERN, re.M | re.U)
 
     @classmethod
     def parse(cls, body, decoder):
