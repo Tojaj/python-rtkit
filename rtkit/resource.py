@@ -49,7 +49,7 @@ class RTResponse(object):
         self.logger.debug('HTTP_STATUS: {0}'.format(self.status))
         r = RTParser.HEADER.match(self.body)
         if r:
-            self.status = r.group('s')
+            self.status = str(r.group('s'))
             self.status_int = int(r.group('i'))
         else:
             self.logger.error('"{0}" is not valid'.format(self.body))
