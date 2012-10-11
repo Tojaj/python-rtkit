@@ -131,6 +131,10 @@ class BoundaryItem(object):
 
 def encode(value, headers):
     if len(value) == 1 and 'content' in value:
+        if 'Text' in value['content']:
+            # Multiline string in Text attribute must have all lines
+            # (except the first one) indented.
+            value['content']['Text'] = "\n      ".join(value['content']['Text'].split('\n'))
         value = 'content=%s' % (_content_encode(value['content']))
         headers.setdefault('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8')
     else:
