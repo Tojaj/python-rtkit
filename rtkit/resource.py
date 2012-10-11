@@ -22,7 +22,7 @@ class RTResource(object):
         headers.setdefault('Accept', 'text/plain')
         if payload:
             payload = forms.encode(payload, headers)
-        self.logger.debug('{0} {1}'.format(method, path))
+        self.logger.debug('%s %s' % (method, path))
         self.logger.debug(headers)
         self.logger.debug('%r' % payload)
         req = Request(
@@ -32,7 +32,7 @@ class RTResource(object):
         )
         try:
             response = self.auth.open(req)
-        except HTTPError as e:
+        except HTTPError, e:
             response = e
         return self.response_cls(req, response)
 
@@ -42,17 +42,17 @@ class RTResponse(object):
         self.headers = response.headers
         self.body = response.read()
         self.status_int = response.code
-        self.status = '{0} {1}'.format(response.code, response.msg)
+        self.status = '%s %s' % (response.code, response.msg)
         self.logger = logging.getLogger('rtkit')
         self.logger.info(request.get_method())
         self.logger.info(request.get_full_url())
-        self.logger.debug('HTTP_STATUS: {0}'.format(self.status))
+        self.logger.debug('HTTP_STATUS: %s' % (self.status,))
         r = RTParser.HEADER.match(self.body)
         if r:
             self.status = r.group('s')
             self.status_int = int(r.group('i'))
         else:
-            self.logger.error('"{0}" is not valid'.format(self.body))
+            self.logger.error('"%s" is not valid' % (self.body,))
             self.status = self.body
             self.status_int = 500
         self.logger.debug('%r' % self.body)
@@ -61,9 +61,9 @@ class RTResponse(object):
             if self.status_int == 409:
                 decoder = RTParser.decode_comment
             self.parsed = RTParser.parse(self.body, decoder)
-        except errors.RTResourceError as e:
+        except errors.RTResourceError, e:
             self.parsed = []
             self.status_int = e.status_int
-            self.status = '{0} {1}'.format(e.status_int, e.msg)
-        self.logger.debug('RESOURCE_STATUS: {0}'.format(self.status))
+            self.status = '%s %s' % (e.status_int, e.msg)
+        self.logger.debug('RESOURCE_STATUS: %s' % (self.status,))
         self.logger.info(self.parsed)

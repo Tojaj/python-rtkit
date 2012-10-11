@@ -33,18 +33,18 @@ class Tracker(RTResource):
         return self._get_subentity(Ticket, ticket_id, History, value, format)
 
     def get_links(self, ticket_id):
-        return self._get_subentity(Ticket, ticket_id, Links)
+        return self._get_subentity(Ticket, ticket_id, Links, "")
 
     def change_links(self, ticket_id, content):
         raise NotImplementedError
 
     def _get_entity(self, Entity, value):
-        r = self.get(path='{0}/{1}'.format(Entity.api(), value))
+        r = self.get(path='%s/%s' % (Entity.api(), value))
         return Entity(**dict(r.parsed[0]))
 
     def _get_subentity(self, Entity, e_value, SubEntity, s_value, format=None):
-        path = '{0}/{1}/{2}/{3}'.format(Entity.api(), e_value, SubEntity.api(), s_value)
+        path = '%s/%s/%s/%s' % (Entity.api(), e_value, SubEntity.api(), s_value)
         if format:
-            path += '?{0}'.format(format)
+            path += '?%s' % (format)
         r = self.get(path=path)
         return SubEntity(**dict(r.parsed[0]))

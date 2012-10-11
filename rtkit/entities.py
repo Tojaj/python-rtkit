@@ -23,7 +23,7 @@ class User(RTEntity):
         self.language = kwargs.get('Lang')
 
     def __str__(self):
-        return '{s.realname} <{s.mail}>'.format(s=self)
+        return '%s <%s>' % (self.realname, self.mail)
 
     @staticmethod
     def api():
@@ -37,7 +37,7 @@ class Queue(RTEntity):
         self.description = kwargs.get('Description')
 
     def __str__(self):
-        return '{s.id}: {s.name}'.format(s=self)
+        return '%s: %s' % (self.id, self.name)
 
     @staticmethod
     def api():
@@ -67,7 +67,7 @@ class Ticket(RTEntity):
         }
 
     def __str__(self):
-        return '{s.id}: {s.subject}'.format(s=self)
+        return '%s: %s' % (self.id, self.subject)
 
     @staticmethod
     def api():
@@ -83,7 +83,7 @@ class Attachment(RTEntity):
         self.content = kwargs.get('Content')
 
     def __str__(self):
-        return '[{s.ticket}]{s.id}'.format(s=self)
+        return '[%s]%s' % (self.ticket, self.id)
 
     @property
     def id(self):

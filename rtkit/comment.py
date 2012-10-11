@@ -24,7 +24,7 @@ UNAUTHORIZED = re.compile(UNAUTHORIZED_PATTERN)
 class RTCreated(Exception):
     def __init__(self, msg):
         m = CREATED.match(msg)
-        self.id = '{0}/{1}'.format(m.group('t').lower(), m.group('r'))
+        self.id = '%s/%s' % (m.group('t').lower(), m.group('r'))
 
 
 class RTNoMatch(Exception):
@@ -71,7 +71,7 @@ def check(section):
     RTInvalidError: Could not create ticket. Queue not set
     >>> try:
     ...     check(['# Ticket 1 created.'])
-    ... except RTCreated as e:
+    ... except RTCreated, e:
     ...     e.id
     'ticket/1'
     >>> check(['# You are not allowed to modify ticket 2.'])

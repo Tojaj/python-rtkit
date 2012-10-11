@@ -39,8 +39,8 @@ class RTParser(object):
                 comment.check(section[0])
             except (comment.RTNoMatch, IndexError):
                 section = ''
-            except comment.RTCreated as e:
-                section = [['id: {0}'.format(e.id)]]
+            except comment.RTCreated, e:
+                section = [['id: %s' % (e.id)]]
         return [decoder(lines) for lines in section]
 
     @classmethod
