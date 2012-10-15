@@ -130,6 +130,11 @@ class BoundaryItem(object):
 
 
 def encode(value, headers):
+    if 'Text' in value['content']:
+        # If a comment contains multiple lines, each new line must be preceded
+        # by a space (e.g. "line 1\n line 2").
+        if isinstance(value['content']['Text'], basestring):
+            value['content']['Text'] = "\n ".join(value['content']['Text'].split('\n'))
     if len(value) == 1 and 'content' in value:
         value = 'content={0}'.format(_content_encode(value['content']))
         headers.setdefault('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8')
